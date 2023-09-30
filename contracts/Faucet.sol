@@ -3,6 +3,7 @@ pragma solidity 0.8.17;
 
 contract Faucet {
   address payable public owner;
+  uint256 public setAmount = 0.1 ether;
 
   constructor() payable {
     owner = payable(msg.sender);
@@ -10,7 +11,7 @@ contract Faucet {
   
   function withdraw(uint _amount) payable public {
     // users can only withdraw .1 ETH at a time, feel free to change this!
-    require(_amount <= 100000000000000000);
+    require(_amount <= setAmount, "Amount is too high");
     (bool sent, ) = payable(msg.sender).call{value: _amount}("");
     require(sent, "Failed to send Ether");
   }
